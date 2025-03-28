@@ -3,6 +3,8 @@ use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
 use sqlx::{sqlite::SqlitePoolOptions, Pool, Sqlite};
 use std::env;
+use actix_cors::Cors;
+
 
 #[derive(Debug, Serialize, Deserialize)]
 struct NewMatch {
@@ -244,6 +246,13 @@ async fn main() -> std::io::Result<()> {
     println!("Servidor escuchando en el puerto 8080");
     HttpServer::new(move || {
         App::new()
+        .wrap(
+            Cors::default()
+                .allow_any_origin()
+                .allow_any_header()
+                .allow_any_method()
+                .max_age(3600)
+        )
             .app_data(web::Data::new(pool.clone()))
             .service(get_matches)
             .service(get_match)
