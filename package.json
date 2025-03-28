@@ -1,0 +1,10 @@
+{
+    "name": "la-liga-tracker-frontend",
+    "version": "1.0.0",
+    "description": "Frontend para La Liga Tracker",
+    "scripts": {
+      "start": "live-server"
+    },
+    "dependencies": {}
+  }
+  
