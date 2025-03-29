@@ -1,0 +1,56 @@
+
+---
+
+## 3. Archivo llms.txt
+
+Crea un archivo llamado **llms.txt** en la raíz del proyecto que contenga una explicación breve del uso de la API. Por ejemplo:
+
+```txt
+La Liga Tracker API - Uso y Ejemplos
+
+Esta API permite gestionar partidos de La Liga. A continuación se muestran ejemplos de uso:
+
+1. Listar partidos:
+   - Método: GET
+   - URL: http://localhost:8080/api/matches
+   - Respuesta: Un arreglo JSON con todos los partidos.
+
+2. Obtener un partido por ID:
+   - Método: GET
+   - URL: http://localhost:8080/api/matches/{id}
+   - Reemplaza {id} por el ID del partido.
+
+3. Crear un partido:
+   - Método: POST
+   - URL: http://localhost:8080/api/matches
+   - Body (JSON):
+     {
+       "home_team": "Real Madrid",
+       "away_team": "Barcelona",
+       "match_date": "2023-12-01"
+     }
+   - Respuesta: { "id": 1 }
+
+4. Actualizar un partido:
+   - Método: PUT
+   - URL: http://localhost:8080/api/matches/{id}
+   - Body (JSON):
+     {
+       "home_team": "Atletico Madrid",
+       "away_team": "Sevilla",
+       "match_date": "2023-12-02"
+     }
+
+5. Eliminar un partido:
+   - Método: DELETE
+   - URL: http://localhost:8080/api/matches/{id}
+
+6. Operaciones adicionales (PATCH):
+   - Registrar gol: PATCH http://localhost:8080/api/matches/{id}/goals
+   - Registrar tarjeta amarilla: PATCH http://localhost:8080/api/matches/{id}/yellowcards
+   - Registrar tarjeta roja: PATCH http://localhost:8080/api/matches/{id}/redcards
+   - Establecer tiempo extra: PATCH http://localhost:8080/api/matches/{id}/extratime
+
+Asegúrate de que el backend esté en ejecución y la variable de entorno `DATABASE_URL` esté configurada correctamente. Puedes utilizar herramientas como Postman o Swagger Editor para probar la API.
+
+Fin del documento.

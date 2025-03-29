@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: La Liga Tracker API
+  description: >
+    API para gestionar partidos de La Liga. Permite listar, crear, actualizar, eliminar partidos
+    y realizar operaciones adicionales (registrar goles, tarjetas y establecer tiempo extra).
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /matches:
+    get:
+      summary: Listar partidos
+      description: Obtiene el listado de todos los partidos.
+      responses:
+        '200':
+          description: Lista de partidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+    post:
+      summary: Crear partido
+      description: Crea un nuevo partido.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMatch'
+      responses:
+        '200':
+          description: Partido creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+  /matches/{id}:
+    get:
+      summary: Obtener partido
+      description: Obtiene un partido por su ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Partido encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '404':
+          description: Partido no encontrado
+    put:
+      summary: Actualizar partido
+      description: Actualiza un partido existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMatch'
+      responses:
+        '200':
+          description: Partido actualizado
+    delete:
+      summary: Eliminar partido
+      description: Elimina un partido por su ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Partido eliminado
+  /matches/{id}/goals:
+    patch:
+      summary: Registrar gol
+      description: Incrementa el número de goles del partido.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Gol registrado
+  /matches/{id}/yellowcards:
+    patch:
+      summary: Registrar tarjeta amarilla
+      description: Incrementa el número de tarjetas amarillas.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tarjeta amarilla registrada
+  /matches/{id}/redcards:
+    patch:
+      summary: Registrar tarjeta roja
+      description: Incrementa el número de tarjetas rojas.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tarjeta roja registrada
+  /matches/{id}/extratime:
+    patch:
+      summary: Establecer tiempo extra
+      description: Activa la bandera de tiempo extra para el partido.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tiempo extra establecido correctamente
+components:
+  schemas:
+    NewMatch:
+      type: object
+      properties:
+        home_team:
+          type: string
+        away_team:
+          type: string
+        match_date:
+          type: string
+          format: date
+      required:
+        - home_team
+        - away_team
+        - match_date
+    Match:
+      allOf:
+        - $ref: '#/components/schemas/NewMatch'
+        - type: object
+          properties:
+            id:
+              type: integer
+            goals:
+              type: integer
+            yellow_cards:
+              type: integer
+            red_cards:
+              type: integer
+            extra_time:
+              type: boolean
